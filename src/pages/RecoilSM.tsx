@@ -1,6 +1,20 @@
-import ProductListR from "../components/ProductListR";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { filterState, productState } from "../store/atoms";
+import { filteredProductState } from "../store/selectors";
+import { useProducts } from "../hooks/useProducts";
+import { useEffect } from "react";
+import ProductList from "../components/ProductList";
 
 const RecoilSM = () => {
+  const { products } = useProducts();
+  const [recoilProducts, setRecoilProducts] = useRecoilState(productState);
+  const [filter, setFilter] = useRecoilState(filterState);
+  const filteredProducts = useRecoilValue(filteredProductState);
+
+  useEffect(() => {
+    setRecoilProducts(products);
+  }, [products, setRecoilProducts]);
+
   return (
     <>
       <div className="flex flex-col items-center justify-center space-y-4">
@@ -17,7 +31,11 @@ const RecoilSM = () => {
 
         <h1 className="text-2xl text-center">Recoil State Management</h1>
         <div className="flex flex-col">
-          <ProductListR />
+          <ProductList
+            filteredProducts={filteredProducts}
+            filter={filter}
+            setFilter={setFilter}
+          />
         </div>
       </div>
     </>

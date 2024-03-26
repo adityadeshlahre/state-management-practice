@@ -1,10 +1,18 @@
-import { useProducts } from "../hooks/useProducts";
 import ProductItem from "./ProductItem";
 import Filter from "./Filter";
+import { Product } from "../hooks/useProducts";
 
-const ProductList: React.FC = () => {
-  const { filteredProducts, filter, setFilter } = useProducts();
+interface ProductListProps {
+  filteredProducts: Product[];
+  filter: string;
+  setFilter: (filter: string) => void;
+}
 
+const ProductList: React.FC<ProductListProps> = ({
+  filteredProducts,
+  filter,
+  setFilter,
+}) => {
   return (
     <div className="p-4">
       <div className="flex justify-center mb-6">
@@ -12,7 +20,10 @@ const ProductList: React.FC = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts.map((product) => (
-          <div className="border-2 border-double border-cyan-300">
+          <div
+            key={product.id}
+            className="border-2 border-double border-cyan-300"
+          >
             <ProductItem key={product.id} product={product} />
           </div>
         ))}
